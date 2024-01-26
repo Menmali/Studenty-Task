@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>read event</title>
+    <link rel="stylesheet" href="/Css/readprod.css">
+    <link rel="stylesheet" href="/css/ListEvents.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src=""></script>
+</head>
+
+<body onload="openFormup()">
+
+<nav>
+    <div class="menu-icon">
+        <span class="fas fa-bars"></span>
+    </div>
+    <div class="logo">
+        Eventify
+    </div>
+    <div class="nav-items">
+        <li><a href="/events">Home</a></li>
+        <li><div class="dropdown">
+            <button class="dropbtn">Category
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Music</a>
+                <a href="#">Artistic</a>
+            </div>
+        </div>
+        </li>
+
+
+
+
+        <li><div class="openBtn">
+            <a class="openButton"  href="/events/create"><strong>Create Event</strong></a>
+        </div></li>
+    </div>
+    <div class="search-icon">
+        <span class="fas fa-search"></span>
+    </div>
+    <div class="cancel-icon">
+        <span class="fas fa-times"></span>
+    </div>
+    <form action="#">
+        <input type="search" class="search-data" placeholder="Search" required>
+        <button type="submit" class="fas fa-search"></button>
+    </form>
+</nav>
+<div class="readPopup">
+    <div class="formPopup" id="popupForm">
+        <div class="demo">
+            <a href="/events" class="cls_btn"><img src="/Images/close.png"/></a>
+
+        </div>
+
+        <div class="formContainer">
+            <div class="Newevent">
+                <a href="/events/create" class="newevent-btn"><strong>+ Create New Event</strong></a>
+            </div>
+            <section class="cover-picture">
+                <div class="container-row">
+                    <div class="layer1">
+                        <img th:src="@{'/uploaded_images/' + ${event.coverPicture}}" class="bg">
+                    </div>
+                </div>
+
+                <div class="section2">
+                    <div class="start-date-time">
+                        <div class="startdate">
+                            <img src="/Images/date.png" id="dt" class="dt">
+                            <label th:text="${event.startDate}"></label>
+                            &ensp;
+                            <label th:text="${event.startTime}"></label>
+                        </div>
+
+
+                    </div>
+                    <div id="nameev" class="nameev">
+                        <p class="ev-name" id="edit3"  th:text="${event.eventName}"> </p>
+                    </div>
+                    <table class="ev-details">
+                        <tr>
+                            <td>
+                                <label >Category:<p th:text="${event.category}"> </p></label >
+                            </td>
+                            <td id="n1" class="n1">
+                                <label id="end-editing">We Will meet in :</label>
+                                &ensp;<p class="edit"  th:text="${event.app}"></p>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <div><p id="Category">Virtual</p></div>
+                               <div> <p id="desc" th:text="${event.eventDescription}"></p></div>
+                            </td>
+                            <th>
+
+                                <div class="layere1"><label >App Link</label></div>
+                                <div id="layere2" class="layere2"><a href="" class="edit" id="edit2" th:text="${event.link}"></a>
+                                </div>
+
+                            </th>
+
+                        </tr>
+
+
+                    </table>
+
+                </div>
+                <div class="div-btn">
+                    <button class="participate-button">Participate</button>
+                    <button onclick="OpeneditV()" class="edit-button">Edit</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="VirtualPopup">
+    <div class="popupeditV" id="popupEditV">
+        <div class="demo">
+            <a href="/events" class="cls_btn"><img src="/Images/close.png"/></a>
+
+        </div>
+
+        <div class="formContainer">
+            <div class="Newevent">
+                <a href="/events/create" class="newevent-btn"><strong>+ Create New Event</strong></a>
+            </div>
+            <section class="cover-picture">
+                <div class="container-row">
+                    <div class="layer1">
+                        <img th:src="@{'/uploaded_images/' + ${event.coverPicture}}" class="bg">
+                    </div>
+                </div>
+
+                <div class="section2">
+                    <div class="start-date-time">
+                        <div class="startdate">
+                            <img src="/Images/date.png"  class="dt">
+                            <label th:text="${event.startDate}"></label>
+                            &ensp;
+                            <label th:text="${event.startTime}"></label>
+                        </div>
+
+
+                    </div>
+                    <form action="/events/update" method="POST"  th:object="${event}">
+                    <div id="nameev1"class="nameev">
+                        <input type="hidden" th:value="${event.id}"  th:field="${event.id} ">
+                        <input type="text" class="ev-name" id="editNAME" th:field="${event.eventName}">
+                        <button type="button" class="ed" id="edit-button3"><img src="/Images/edit.png"></button>
+                    </div>
+
+                    <table class="ev-detailsv">
+                        <tr>
+                            <td>
+                                <label >Category:<p th:text="${event.category}"> </p></label >
+                            </td>
+                            <td id="n11" class="n1">
+                                <label >We Will meet in :</label>
+                                &ensp;<input type="text" class="edit" id="editAPP" th:field="${event.app}">
+                                <button   type="button" class="ed" id="edit-button"><img src="/Images/edit.png"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p >Virtual</p>
+                                <p >Event Description</p>
+                                <p th:text="${event.eventDescription}"></p>
+                            </td>
+                            <th>
+
+                                <div class="layere1"><label >App Link</label></div>
+                                <div id="layere2" class="layere2v">
+                                    <input type="text" class="edit" id="editLink"  th:field="${event.link}">
+                                    <button   type="button" class="ed" id="edit-button2"><img src="/Images/edit.png"></button>
+                                </div>
+                            </th>
+
+                        </tr>
+
+
+                    </table>
+
+                </div>
+                <div class="div-btn">
+                    <button type="submit" class="next-button">Update</button>
+                    <a th:href="@{/events/deleteEvent/{id}(id=${event.id})}" class="del-button">Delete</a>
+                </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="/js/readvirtual.js"></script>
+</body>
+
+</html>

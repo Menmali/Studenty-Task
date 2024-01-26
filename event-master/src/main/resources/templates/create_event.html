@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Event Listing</title>
+    <link rel="stylesheet" href="/css/ListEvents.css">
+    <link rel="stylesheet" href="/css/page1.css">
+    <link rel="stylesheet" href="/css/page2.css">
+    <link rel="stylesheet" href="/css/page3.css">
+    <link rel="stylesheet" href="/css/page4.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="/js/create_event.js"></script>
+</head>
+<body onload="openForm()">
+
+<nav>
+    <div class="menu-icon">
+        <span class="fas fa-bars"></span>
+    </div>
+    <div class="logo">
+        Eventify
+    </div>
+    <div class="nav-items">
+        <li><a href="/events">Home</a></li>
+        <li><div class="dropdown">
+            <button class="dropbtn">Category
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Music</a>
+                <a href="#">Artistic</a>
+            </div>
+        </div>
+        </li>
+
+
+
+
+        <li><div class="openBtn">
+            <a class="openButton"  href="/events/create"><strong>Create Event</strong></a>
+        </div></li>
+    </div>
+    <div class="search-icon">
+        <span class="fas fa-search"></span>
+    </div>
+    <div class="cancel-icon">
+        <span class="fas fa-times"></span>
+    </div>
+    <form action="#">
+        <input type="search" class="search-data" placeholder="Search" required>
+        <button type="submit" class="fas fa-search"></button>
+    </form>
+</nav>
+<form action="/events/create" method="POST"  enctype="multipart/form-data" th:object="${eventDto}">
+<!-- Event Creation Page 1 -->
+<div class="loginPopup">
+    <div class="formPopup" id="popupForm">
+        <div class="demo">
+            <a href="/events" class="cls_btn"><img src="/Images/close.png"/></a>
+        </div>
+
+        <div class="formContainer">
+            <section class="cover-picture">
+                <h1>Club name</h1>
+                <h2>Add cover picture</h2>
+                <div class="container-row">
+                    <div class="layer1">
+                        <img src="/Images/im1.png" class="bg">
+                    </div>
+
+                    <div class="layer2">
+                        <label for="cover-picture-input"><img src="/Images/plus.png" /> </label>
+                        <input type="file" id="cover-picture-input" class="image" th:field="${eventDto.coverPicture}">
+                    </div>
+                </div>
+
+                <div class="section2">
+                    <label for="event-name">Event name:</label>
+                    <input type="text" id="event-name" placeholder="Event Name" th:field="${eventDto.eventName}">
+                    <div class="start-date-time">
+                        <div class="startdate">
+                            <label for="start-date">Start date:</label>
+                            <input type="date" id="start-date" th:field="${eventDto.startDate}">
+                        </div>
+                        <div class="startdate">
+                            <label for="start-time">Start time:</label>
+                            <input type="time" id="start-time" th:field="*{startTime}" th:value="${eventDto.startTime}" pattern="HH:mm">
+
+                        </div>
+                    </div>
+                    <label for="category">Category:</label>
+                    <select id="category" th:field="${eventDto.category}">
+                        <option value="artistic">Artistic</option>
+                        <option value="music">Music</option>
+                    </select>
+                    <label for="event-description">Event description:</label>
+                    <textarea id="event-description" th:field="${eventDto.eventDescription}"></textarea>
+                    <label for="event-type">Is it physical or virtual?</label>
+                    <select id="event-type" th:field="${eventDto.Physical}">
+                        <option th:value="true" selected>Physical</option>
+                        <option th:value="false">Virtual</option>
+                    </select>
+
+                </div>
+                <div class="div-btn">
+                    <input  type="button"  value="Next" class="next-button" onclick="verif1()">
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Event Creation Page 2 -->
+
+<div class="loginPopup2">
+    <div class="formPopup2" id="popupForm2">
+        <div class="demo2">
+            <button type="button" class="cls_btn2" onclick="closeForm2()"><img src="/Images/close.png"/></button>
+        </div>
+
+        <div class="formContainer2">
+            <section class="sec1_2">
+                <label for="app">Which application will you use:</label>
+                <input type="text" placeholder="Zoom.." id="app" th:field="${eventDto.app}">
+                <label for="link">Put the Link:</label>
+                <input type="text" placeholder="Link.." id="link"  th:field="${eventDto.link}">
+                <div class="div-btn2">
+                    <button TYPE="submit" class="Publish-btn2" onclick="return verif2()">Publish</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- Event Creation Page 3 -->
+<div class="loginPopup3">
+    <div class="formPopup3" id="popupForm3">
+        <div class="demo3">
+            <button type="button" class="cls_btn3" onclick="closeForm3()"><img src="/Images/close.png"/></button>
+        </div>
+
+        <div class="formContainer3">
+            <section class="sec1_3">
+                <label class="ide3">Is The Event:</label>
+                <div class="boxes3">
+                    <input type="checkbox" th:value="true" th:field="${eventDto.inside}" id="inside-checkbox">
+                    <label for="inside-checkbox">Inside the Campus</label>
+
+                    <input type="checkbox" th:value="false" th:field="${eventDto.inside}" id="outside-checkbox">
+                    <label for="outside-checkbox">Outside the Campus</label>
+
+                </div>
+                <div class="div-btn3">
+                    <input  type="button"  value="Next" class="next-button3" onclick="return verif3()">
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- Event Creation Page 4 -->
+<div class="loginPopup4">
+    <div class="formPopup4" id="popupForm4">
+        <div class="demo4">
+            <button type="button" class="cls_btn4" onclick="closeForm4()"><img src="/Images/close.png"/></button>
+        </div>
+        <section>
+            <div class="formContainer4">
+                <div class="section2">
+                    <label for="State">State:</label>
+                    <input type="text" id="State" placeholder="Choose your State.." th:field="${eventDto.state}">
+                    <label for="Place Name">Place Name:</label>
+                    <input type="text" id="Place Name" placeholder="Write the place name.." th:field="${eventDto.Place_name}">
+                    <label for="loc-link">Location Link:</label>
+                    <input type="text" id="loc-link" placeholder="Link google maps" th:field="${eventDto.Location_link}">
+                    <label for="loc-desc">Location Description (Optional):</label>
+                    <input type="text" id="loc-desc" placeholder="Describe the Location .." th:field="${eventDto.Location_description}">
+                </div>
+                <div class="div-btn4">
+                    <button type="submit" class="Publish-btn4"  onclick="return verif4()">Publish</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</form>
+
+
+</body>
+</html>
